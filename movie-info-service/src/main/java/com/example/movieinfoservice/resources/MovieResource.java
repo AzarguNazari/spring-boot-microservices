@@ -25,5 +25,4 @@ public class MovieResource {
         return new Movie(movieId, movieSummary.getTitle(), movieSummary.getOverview());
 
     }
-
 }
