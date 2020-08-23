@@ -16,16 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/catalog")
+@RequestMapping("/catalogs")
 public class CatalogResource {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    WebClient.Builder webClientBuilder;
 
-    @RequestMapping("/{userId}")
+    @RequestMapping
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
         UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/user/" + userId, UserRating.class);
@@ -39,9 +37,3 @@ public class CatalogResource {
 
     }
 }
-
-/*
-Alternative WebClient way
-Movie movie = webClientBuilder.build().get().uri("http://localhost:8082/movies/"+ rating.getMovieId())
-.retrieve().bodyToMono(Movie.class).block();
-*/

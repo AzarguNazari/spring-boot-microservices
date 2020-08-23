@@ -13,16 +13,14 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/movies")
 public class MovieResource {
 
-    @Value("${api.key}")
-    private String apiKey;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
     @RequestMapping("/{movieId}")
     public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
-        MovieSummary movieSummary = restTemplate.getForObject("https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" +  apiKey, MovieSummary.class);
-        return new Movie(movieId, movieSummary.getTitle(), movieSummary.getOverview());
+        return getMovie(movieId);
+    }
 
+    public Movie getMovie(String movieId){
+        if(movieId.equals("titanic")) return new Movie("titanic", "Titanic Movie", "A historic movie of separation and love");
+        if(movieId.equals("3idiot")) return new Movie("3idiot", "3 Idiots", "A movie about students struggle during college");
+        return null;
     }
 }
