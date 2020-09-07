@@ -4,6 +4,7 @@ import com.example.moviecatalogservice.models.CatalogItem;
 import com.example.moviecatalogservice.models.Movie;
 import com.example.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,17 +17,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/catalogs")
+@RequestMapping(value = "/catalogs", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CatalogResource {
 
     @Autowired
     private RestTemplate restTemplate;
 
-
     @RequestMapping
-    public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
+    public List<CatalogItem> getCatalog(@PathVariable("userId") Integer userId) {
 
-        UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/user/" + userId, UserRating.class);
+        UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratings/user/" + userId, UserRating.class);
 
         return userRating.getRatings().stream()
                 .map(rating -> {
